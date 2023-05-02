@@ -41,7 +41,13 @@ public class Player : MonoBehaviour
         Jump();
         Move();
     }
-
+    
+    private void OnTriggerEnter2D(Collider2D other) {
+        if (other.TryGetComponent<Traps>(out Traps trap)) {
+            transform.position = _startPosition.position;
+        }
+    }
+    
     private void Move() {
         _velocity.x = _direction.x * _speed * Time.fixedDeltaTime;
         _velocity.y = _rigidBody2d.velocity.y;
@@ -102,11 +108,5 @@ public class Player : MonoBehaviour
 
         _animator.SetBool(jump, IsGrounded);
         _animator.SetFloat(fall, _rigidBody2d.velocity.y);
-    }
-
-    private void OnTriggerEnter2D(Collider2D other) {
-        if (other.TryGetComponent<Traps>(out Traps trap)) {
-            transform.position = _startPosition.position;
-        }
     }
 }
